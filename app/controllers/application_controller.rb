@@ -16,4 +16,12 @@ class ApplicationController < ActionController::Base
   def init_team
     current_user.assigns.create!(team_id: Team.first.id) if current_user.teams.blank?
   end
+
+  def chek_user_from_team_show
+    unless current_user == @team.owner
+      flash[:notice] = "オーナー以外のユーザーは操作できません"
+      render :show
+    end
+  end
+
 end
